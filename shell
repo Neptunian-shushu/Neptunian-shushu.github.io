@@ -1,0 +1,4 @@
+#!/bin/bash
+pandoc ./source/index.md -o ./build/index.html
+pandoc ./source/home.md -o ./build/home.html
+pandoc ./source/blog.md -o ./build/blog.html
