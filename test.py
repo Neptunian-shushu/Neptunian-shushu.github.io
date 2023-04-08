@@ -1,5 +1,5 @@
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -17,8 +17,11 @@ for link in links:
             WebDriverWait(driver, 10).until(EC.title_contains(""))
             title = driver.title
             print(title)
-        except NoSuchElementException:
+            driver.back()
+            links = driver.find_elements(By.TAG_NAME, 'a') #refresh links after going back
+        except (NoSuchElementException, StaleElementReferenceException):
             print(f"Link {href} does not lead to any page yet or leads to a 404 page.")
-            exit(1)
+            driver.back()
+            links = driver.find_elements(By.TAG_NAME, 'a') #refresh links after going back
 
 driver.quit()
